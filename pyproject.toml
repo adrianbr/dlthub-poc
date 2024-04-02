@@ -1,0 +1,18 @@
+[tool.poetry]
+name = "data-ingestion-dlthub-mongodb"
+version = "0.1.0"
+description = "Data ingestion pipeline to extract from mongodb and load into bigquery"
+authors = ["Ajit Gupta <86781497+fortoajit@users.noreply.github.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = ">=3.9,<3.13"
+pre-commit = "^3.4.0"
+dlt = {extras = ["bigquery"], version = "^0.4.4"}
+google-cloud-bigquery-storage = "^2.24.0"
+pymongo = "^4.6.3"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
