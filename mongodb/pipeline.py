@@ -43,7 +43,7 @@ def full_load_collection(
         return extracted_data
 
     info = pipeline.run(
-        wrapping_source,
+        wrapping_source(),
         write_disposition="append",
         loader_file_format="jsonl",
         staging="filesystem",
