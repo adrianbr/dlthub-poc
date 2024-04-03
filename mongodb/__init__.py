@@ -1,16 +1,14 @@
 """Source that loads collections form any a mongo database, supports incremental loads."""
-from datetime import datetime
-from typing import Any, Iterable, List, Optional
+from typing import Any, Optional
 
 import dlt
-from dlt.sources import DltResource
 
 from .helpers import (
-    MongoDbCollectionConfiguration,
     MongoDbCollectionResourceConfiguration,
     client_from_credentials,
     collection_documents,
 )
+
 
 @dlt.source(max_table_nesting=0)
 @dlt.common.configuration.with_config(
@@ -49,7 +47,7 @@ def mongodb_collection(
 
     return dlt.resource(  # type: ignore
         collection_documents,
-        name='mongodb',
+        name="mongodb",
         primary_key="_id",
         write_disposition=write_disposition,
     )(client, collection_obj, incremental=incremental, parallel=parallel)

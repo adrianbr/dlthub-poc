@@ -1,4 +1,3 @@
-
 import dlt
 from dlt.common.pipeline import LoadInfo
 from dlt.pipeline.pipeline import Pipeline
@@ -17,7 +16,7 @@ def get_dlt_pipeline_instance(dataset_name: str) -> Pipeline:
         destination="bigquery",
         progress="log",
         dataset_name=dataset_name,
-        full_refresh=True
+        full_refresh=True,
     )
     return pipeline
 
@@ -33,14 +32,18 @@ def full_load_collection(
 
     extracted_data = extracted_data.mongodb.add_map(add_etl_timestamp)
 
-    # extracted_data = bigquery_adapter(
-    #     extracted_data,
-    #     partition="_etl_timestamp",
-    #     table_description="finance book",
-    # )
+    extracted_data = bigquery_adapter(
+        extracted_data,
+        partition="_etl_timestamp",
+        table_description="finance book",
+    )
+
+    @dlt.source(max_table_nesting=0)
+    def wrapping_source():
+        return extracted_data
 
     info = pipeline.run(
-        extracted_data,
+        wrapping_source,
         write_disposition="append",
         loader_file_format="jsonl",
         staging="filesystem",
