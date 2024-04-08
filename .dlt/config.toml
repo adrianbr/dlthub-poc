@@ -2,3 +2,7 @@
 log_level="DEBUG"
 dlthub_telemetry = false
 restore_from_destination = false
+
+
+[schema]
+SCHEMA__NAMING="direct"
