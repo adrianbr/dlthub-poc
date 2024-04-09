@@ -1,3 +1,5 @@
+import os
+
 import dlt
 from dlt.common.pipeline import LoadInfo
 from dlt.pipeline.pipeline import Pipeline
@@ -24,6 +26,7 @@ def get_dlt_pipeline_instance(dataset_name: str) -> Pipeline:
 def full_load_collection(
     pipeline: Pipeline, collection_name: str, database_name: str = None
 ) -> LoadInfo:
+    # os.environ["SCHEMA__NAMING"] = "direct"
     extracted_data = mongodb_collection(
         database=database_name,
         collection=collection_name,
@@ -43,7 +46,7 @@ def full_load_collection(
         return extracted_data
 
     info = pipeline.run(
-        wrapping_source(),
+        extracted_data,
         write_disposition="replace",
         loader_file_format="jsonl",
         staging="filesystem",
